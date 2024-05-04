@@ -126,7 +126,7 @@ int main(int argc, char** argv) {
     signal(SIGINT, sighandler);
 
     // Allocate shared memory
-    sh_key = ftok("./oss.c", 0);
+    sh_key = ftok("./oss.cpp", 0);
     shm_id = shmget(sh_key, sizeof(int) * 2, IPC_CREAT | 0666);
     if (shm_id <= 0) {
         std::cout << "Shared memory allocation failed\n";
@@ -166,13 +166,14 @@ int main(int argc, char** argv) {
     int option;
     int proc;
     int simul;
+    int timeinms;
     int timelimit;
      // Initialize the process table and resource table
     initializeProcessTable();
     initializeResourceTable();
     outputProcessTable();
 
-    while ((option = getopt(argc, argv, "hn:s:i:f:")) != -1) {
+    while ((option = getopt(argc, argv, "hn:s:i:t:f:")) != -1) {
         switch (option) {
             case 'h':
                 printf(" [-n proc] [-s simul] [-t timelimitForChildren]\n"
@@ -187,6 +188,9 @@ int main(int argc, char** argv) {
                 break;
             case 'i':
                 timelimit = atoi(optarg);
+                break;
+            case 't':
+                timeinms = atoi(optarg);
                 break;
             case 'f':
                 fptr = fopen(optarg, "a");
