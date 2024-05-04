@@ -111,7 +111,7 @@ void initializeResourceTracker(struct resourceTracker *resourceTracker) {
 
 int main(int argc, char** argv) {
     // Get access to shared memory
-    const int sh_key = ftok("./oss.c", 0);
+    const int sh_key = ftok("./oss.cpp", 0);
     int shm_id = shmget(sh_key, sizeof(int) * 2, IPC_CREAT | 0666);
     int *simulatedClock = (int*)shmat(shm_id, 0, 0);
 
